@@ -1,3 +1,18 @@
 spring:
   application:
     name: crud-system
+  datasource:
+    url: jdbc:h2:mem:crud
+    username: sa
+    password: password
+  h2:
+    console:
+      enabled: true
+      path: /h2-console
+  jpa:
+    hibernate:
+      ddl-auto: update
+    show-sql: true
+    properties:
+      hibernate:
+        format_sql: true
