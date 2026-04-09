@@ -16,6 +16,10 @@ public class CategoryService {
     private final CategoryRepository repository;
 
     public void registerCategory(CategoryDto categoryDto) {
+        if (repository.existsByNameCategory(categoryDto.getNameCategory())){
+            throw new RuntimeException("Category name already registered");
+        }
+
         Category category = Category.builder()
                 .nameCategory(categoryDto.getNameCategory())
                 .build();
@@ -28,5 +32,32 @@ public class CategoryService {
                 .stream()
                 .map(CategoryResponseDto::toCategoryResponseDto)
                 .toList();
+    }
+
+    public CategoryResponseDto searchById(Long id){
+        Category category = repository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Category not found"));
+
+        return CategoryResponseDto.toCategoryResponseDto(category);
+    }
+
+    public void updateCategory(Long id,CategoryDto dto){
+        Category category = repository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Category not found"));
+
+        if (repository.existsByNameCategoryAndIdCategoryNot(dto.getNameCategory(),id)){
+            throw new RuntimeException("Category name already registered");
+        }
+
+        category.setNameCategory(dto.getNameCategory());
+
+        repository.save(category);
+    }
+
+    public void deleteCategory(Long id){
+        Category category = repository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Category not found"));
+
+        repository.deleteById(id);
     }
 }
