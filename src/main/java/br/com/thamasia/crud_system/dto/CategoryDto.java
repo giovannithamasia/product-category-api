@@ -11,7 +11,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class CategoryDto {
 
-    @NotBlank(message = "The category name is required.")
+    @NotBlank(message = "The category name is required")
     @Size(min = 2 , max = 50,message = "Name must be between two and fifty characters")
     private String nameCategory;
 }
