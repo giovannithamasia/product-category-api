@@ -6,7 +6,6 @@ import br.com.thamasia.crud_system.model.Category;
 import br.com.thamasia.crud_system.service.CategoryService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -31,24 +30,24 @@ public class CategoryController implements GenericController{
 
     @GetMapping
     public ResponseEntity<List<CategoryResponseDto>> listCategories() {
-        return ResponseEntity.status(HttpStatus.OK).body(service.listCategories());
+        return ResponseEntity.ok(service.listCategories());
     }
 
     @GetMapping("/{id}")
     public ResponseEntity<CategoryResponseDto> searchById(@PathVariable("id") Long idCategory) {
-        return ResponseEntity.status(HttpStatus.OK).body(service.searchById(idCategory));
+        return ResponseEntity.ok(service.searchById(idCategory));
     }
 
     @PutMapping("/{id}")
     public ResponseEntity<Void> updateCategory(@PathVariable("id") Long idCategory,
                                                @RequestBody @Valid CategoryDto dto) {
         service.updateCategory(idCategory, dto);
-        return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
+        return ResponseEntity.noContent().build();
     }
 
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deleteCategory(@PathVariable("id") Long idCategory){
         service.deleteCategory(idCategory);
-        return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
+        return ResponseEntity.noContent().build();
     }
 }
