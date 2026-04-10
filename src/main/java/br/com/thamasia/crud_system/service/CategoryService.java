@@ -20,7 +20,7 @@ public class CategoryService {
     private final CategoryRepository categoryRepository;
     private final ProductRepository productRepository;
 
-    public void registerCategory(CategoryDto categoryDto) {
+    public Category registerCategory(CategoryDto categoryDto) {
         if (categoryRepository.existsByNameCategory(categoryDto.getNameCategory())){
             throw new NameCategoryDuplicateException("Category name already registered");
         }
@@ -30,6 +30,8 @@ public class CategoryService {
                 .build();
 
         categoryRepository.save(category);
+
+        return category;
     }
 
     public List<CategoryResponseDto> listCategories(){
