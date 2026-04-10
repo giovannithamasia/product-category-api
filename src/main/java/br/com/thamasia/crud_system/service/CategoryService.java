@@ -10,6 +10,7 @@ import br.com.thamasia.crud_system.repository.CategoryRepository;
 import br.com.thamasia.crud_system.repository.ProductRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -20,6 +21,7 @@ public class CategoryService {
     private final CategoryRepository categoryRepository;
     private final ProductRepository productRepository;
 
+    @Transactional
     public Category registerCategory(CategoryDto categoryDto) {
         if (categoryRepository.existsByNameCategory(categoryDto.getNameCategory())){
             throw new NameCategoryDuplicateException("Category name already registered");
@@ -48,6 +50,7 @@ public class CategoryService {
         return CategoryResponseDto.toCategoryResponseDto(category);
     }
 
+    @Transactional
     public void updateCategory(Long id,CategoryDto dto){
         Category category = categoryRepository.findById(id)
                 .orElseThrow(() -> new CategoryNotFoundException("Category not found"));
@@ -61,6 +64,7 @@ public class CategoryService {
         categoryRepository.save(category);
     }
 
+    @Transactional
     public void deleteCategory(Long id){
         categoryRepository.findById(id)
                 .orElseThrow(() -> new CategoryNotFoundException("Category not found"));
