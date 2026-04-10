@@ -3,9 +3,11 @@ package br.com.thamasia.crud_system.service;
 import br.com.thamasia.crud_system.dto.CategoryDto;
 import br.com.thamasia.crud_system.dto.CategoryResponseDto;
 import br.com.thamasia.crud_system.exception.CategoryNotFoundException;
+import br.com.thamasia.crud_system.exception.CategoryWithProductsException;
 import br.com.thamasia.crud_system.exception.NameCategoryDuplicateException;
 import br.com.thamasia.crud_system.model.Category;
 import br.com.thamasia.crud_system.repository.CategoryRepository;
+import br.com.thamasia.crud_system.repository.ProductRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -15,10 +17,11 @@ import java.util.List;
 @RequiredArgsConstructor
 public class CategoryService {
 
-    private final CategoryRepository repository;
+    private final CategoryRepository categoryRepository;
+    private final ProductRepository productRepository;
 
     public void registerCategory(CategoryDto categoryDto) {
-        if (repository.existsByNameCategory(categoryDto.getNameCategory())){
+        if (categoryRepository.existsByNameCategory(categoryDto.getNameCategory())){
             throw new NameCategoryDuplicateException("Category name already registered");
         }
 
@@ -26,40 +29,44 @@ public class CategoryService {
                 .nameCategory(categoryDto.getNameCategory())
                 .build();
 
-        repository.save(category);
+        categoryRepository.save(category);
     }
 
     public List<CategoryResponseDto> listCategories(){
-        return repository.findAll()
+        return categoryRepository.findAll()
                 .stream()
                 .map(CategoryResponseDto::toCategoryResponseDto)
                 .toList();
     }
 
     public CategoryResponseDto searchById(Long id){
-        Category category = repository.findById(id)
+        Category category = categoryRepository.findById(id)
                 .orElseThrow(() -> new CategoryNotFoundException("Category not found"));
 
         return CategoryResponseDto.toCategoryResponseDto(category);
     }
 
     public void updateCategory(Long id,CategoryDto dto){
-        Category category = repository.findById(id)
+        Category category = categoryRepository.findById(id)
                 .orElseThrow(() -> new CategoryNotFoundException("Category not found"));
 
-        if (repository.existsByNameCategoryAndIdCategoryNot(dto.getNameCategory(),id)){
+        if (categoryRepository.existsByNameCategoryAndIdCategoryNot(dto.getNameCategory(),id)){
             throw new NameCategoryDuplicateException("Category name already registered");
         }
 
         category.setNameCategory(dto.getNameCategory());
 
-        repository.save(category);
+        categoryRepository.save(category);
     }
 
     public void deleteCategory(Long id){
-        Category category = repository.findById(id)
+        categoryRepository.findById(id)
                 .orElseThrow(() -> new CategoryNotFoundException("Category not found"));
 
-        repository.deleteById(id);
+        if (productRepository.existsByCategoryIdCategory(id)){
+            throw new CategoryWithProductsException("You cannot delete a category containing products");
+        }
+
+        categoryRepository.deleteById(id);
     }
 }
