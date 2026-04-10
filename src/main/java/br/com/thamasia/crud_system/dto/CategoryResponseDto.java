@@ -15,10 +15,10 @@ public class CategoryResponseDto {
     private Long idCategory;
     private String nameCategory;
 
-    public static CategoryResponseDto toCategoryResponseDto(Category c){
+    public static CategoryResponseDto toCategoryResponseDto(Category c) {
         return CategoryResponseDto.builder()
                 .idCategory(c.getIdCategory())
-                .nameCategory(c.getNameCategory()).
-                build();
+                .nameCategory(c.getNameCategory())
+                .build();
     }
 }
