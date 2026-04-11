@@ -22,38 +22,44 @@ public class ProductService {
     private final CategoryRepository categoryRepository;
 
     @Transactional
-    public void registerProduct(ProductDto dto){
+    public Product registerProduct(ProductDto dto) {
         Category category = categoryRepository.findById(dto.getIdCategory())
                 .orElseThrow(() -> new CategoryNotFoundException("Category not found"));
 
-        Product product = new Product();
+        Product product = Product.builder()
+                .nameProduct(dto.getNameProduct())
+                .price(dto.getPrice())
+                .category(category)
+                .build();
 
-        product.setNameProduct(dto.getNameProduct());
-        product.setPrice(dto.getPrice());
-        product.setCategory(category);
 
         productRepository.save(product);
+
+        return product;
     }
 
-    public List<ProductResponseDto> listProducts(){
+    @Transactional(readOnly = true)
+    public List<ProductResponseDto> listProducts() {
         return productRepository.findAll()
                 .stream()
                 .map(ProductResponseDto::toProductResponseDto)
                 .toList();
     }
 
-    public ProductResponseDto searchById(Long idCategory){
-        Product product = productRepository.findById(idCategory)
+    @Transactional(readOnly = true)
+    public ProductResponseDto searchById(Long idProduct) {
+        Product product = productRepository.findById(idProduct)
                 .orElseThrow(() -> new ProductNotFoundException("Product not found"));
 
         return ProductResponseDto.toProductResponseDto(product);
     }
 
-    public List<ProductResponseDto> listProductsByCategory(Long id){
-        categoryRepository.findById(id)
+    @Transactional(readOnly = true)
+    public List<ProductResponseDto> listProductsByCategory(Long idCategory) {
+        categoryRepository.findById(idCategory)
                 .orElseThrow(() -> new CategoryNotFoundException("Category not found"));
 
-        List<Product> product = productRepository.findByCategoryIdCategory(id);
+        List<Product> product = productRepository.findByCategoryIdCategory(idCategory);
 
         return product.stream()
                 .map(ProductResponseDto::toProductResponseDto)
@@ -61,7 +67,7 @@ public class ProductService {
     }
 
     @Transactional
-    public void updateProduct(Long idProduct,ProductDto dto){
+    public void updateProduct(Long idProduct, ProductDto dto) {
         Product product = productRepository.findById(idProduct)
                 .orElseThrow(() -> new ProductNotFoundException("Product not found"));
 
@@ -76,7 +82,7 @@ public class ProductService {
     }
 
     @Transactional
-    public void deleteProduct(Long idProduct){
+    public void deleteProduct(Long idProduct) {
         productRepository.findById(idProduct)
                 .orElseThrow(() -> new ProductNotFoundException("Product not found"));
 
