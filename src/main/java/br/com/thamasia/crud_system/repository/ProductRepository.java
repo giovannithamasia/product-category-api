@@ -10,4 +10,6 @@ public interface ProductRepository extends JpaRepository<Product,Long> {
     List<Product> findByCategoryIdCategory(Long idCategory);
 
     boolean existsByCategoryIdCategory(Long idCategory);
+
+    List<Product> findByNameProductStartingWithIgnoreCase(String nameProduct);
 }
