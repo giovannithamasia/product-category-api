@@ -20,7 +20,7 @@ public class ProductDto {
     private String nameProduct;
 
     @Positive(message = "The price cannot be negative or zero")
-    @NotNull(message = "The price cannot be zero")
+    @NotNull(message = "The price cannot be null")
     private BigDecimal price;
 
     @NotNull(message = "The category id cannot be null")

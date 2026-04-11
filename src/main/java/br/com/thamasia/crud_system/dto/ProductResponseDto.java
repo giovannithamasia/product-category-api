@@ -20,17 +20,11 @@ public class ProductResponseDto {
     private CategoryResponseDto category;
 
     public static ProductResponseDto toProductResponseDto(Product p){
-
-        CategoryResponseDto category = CategoryResponseDto.builder()
-                .idCategory(p.getCategory().getIdCategory())
-                .nameCategory(p.getCategory().getNameCategory())
-                .build();
-
         return ProductResponseDto.builder()
                 .idProduct(p.getIdProduct())
                 .nameProduct(p.getNameProduct())
                 .price(p.getPrice())
-                .category(category)
+                .category(CategoryResponseDto.toCategoryResponseDto(p.getCategory()))
                 .build();
     }
 }
