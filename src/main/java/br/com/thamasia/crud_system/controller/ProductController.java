@@ -43,6 +43,11 @@ public class ProductController implements GenericController {
         return ResponseEntity.ok(service.listProductsByCategory(idCategory));
     }
 
+    @GetMapping("/search")
+    public ResponseEntity<List<ProductResponseDto>> searchProductsByName(@RequestParam("name") String nameProduct){
+        return ResponseEntity.ok(service.searchProductsByName(nameProduct));
+    }
+
     @PutMapping("/{id}")
     public ResponseEntity<Void> updateProduct(@PathVariable("id") Long idProduct,
                                               @RequestBody @Valid ProductDto dto){

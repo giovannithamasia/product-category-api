@@ -66,6 +66,16 @@ public class ProductService {
                 .toList();
     }
 
+    @Transactional(readOnly = true)
+    public List<ProductResponseDto> searchProductsByName(String name){
+        List<Product> products =
+                productRepository.findByNameProductStartingWithIgnoreCase(name);
+
+       return products.stream()
+                .map(ProductResponseDto::toProductResponseDto)
+                .toList();
+    }
+
     @Transactional
     public void updateProduct(Long idProduct, ProductDto dto) {
         Product product = productRepository.findById(idProduct)
