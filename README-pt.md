@@ -11,6 +11,8 @@ Uma API REST robusta construída com Java e Spring Boot para gerenciar o cadastr
 * **Jakarta Validation** (para validação de dados de entrada)
 * **Lombok** (para reduzir código boilerplate)
 * **Maven** (Gerenciamento de dependências)
+* **H2 Database** (banco de dados em memória para desenvolvimento)
+* **Swagger/OpenAPI 3** (documentação interativa da API)
 
 ## 🛠️ Arquitetura e Padrões
 
@@ -75,6 +77,8 @@ A aplicação utiliza um Manipulador Global de Exceções (Global Exception Hand
 
 ## 🛠️  Como Executar
 
+> **Obs:** Este projeto utiliza o H2, um banco de dados em memória. Não é necessário instalar nenhum banco de dados — ele sobe automaticamente junto com a aplicação.
+ 
 - Clonar repositório git
 ```bash
 git clone https://github.com/giovannithamasia/product-category-api.git

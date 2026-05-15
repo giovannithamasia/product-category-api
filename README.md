@@ -11,6 +11,8 @@ A robust REST API built with Java and Spring Boot to manage product registration
 * **Jakarta Validation** (for input data validation)
 * **Lombok** (to reduce boilerplate code)
 * **Maven** (Dependency management)
+* **H2 Database** (in-memory database for development)
+* **Swagger/OpenAPI 3** (interactive API documentation)
 
 ## 🛠️ Architecture and Patterns
 
@@ -74,6 +76,8 @@ The application uses a Global Exception Handler, ensuring that any error returns
 * RESTful Pattern: Correct use of HTTP semantics.
 
 ## 🛠️  How to run
+
+> **Note:** This project uses H2, an in-memory database. No database installation is required — it starts automatically with the application.
 
 - Clone the git repository:
 ```bash
