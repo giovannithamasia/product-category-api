@@ -85,11 +85,11 @@ git clone https://github.com/giovannithamasia/product-category-api.git
 ```
 - Build the project:
 ```
-$ ./mvnw clean package
+./mvnw clean package
 ```
 - Run the application:
 ```
-$ java -jar target/crud-system-0.0.1-SNAPSHOT.jar
+java -jar target/crud-system-0.0.1-SNAPSHOT.jar
 ```
 
 The API can be accessed at [localhost:8082](http://localhost:8082)
